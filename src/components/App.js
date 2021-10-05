@@ -57,11 +57,16 @@ function handleRecipeSelected(id) {
   setSelectedRecipeId(id);
 }
 
-console.log(selectedRecipe)
+function handleRecipeChange(id, recipe) {
+  const newRecipe = [...recipes];
+  const index = newRecipe .findIndex(r => r.id === id);
+  newRecipe[index] = recipe;
+  setRecipes(newRecipe);
+}
 
   return (
     <>
-    <RecipeContext.Provider value={{handleRecipeAdd, handleRecipeDelete, handleRecipeSelected}} >
+    <RecipeContext.Provider value={{handleRecipeAdd, handleRecipeDelete, handleRecipeSelected, handleRecipeChange }} >
     <GlobalStyle />
     <RecipeList recipes={recipes} />
     {selectedRecipe && <RecipeEdit selectedRecipe={selectedRecipe}/>}
