@@ -1,6 +1,6 @@
 import RecipeIngridientEdit from "./RecipeIngridientEdit";
 
-export default function RecipeEdit() {
+export default function RecipeEdit({selectedRecipe}) {
     return (
         <div className='recipe-edit'>
             <div className='recipe-edit__remove-button-container'>
@@ -17,6 +17,7 @@ export default function RecipeEdit() {
                     name='name' 
                     id='name' 
                     className='recipe-edit__input'
+                    value={selectedRecipe.name}
                     />
                 <label 
                     htmlFor='cookTime'
@@ -28,6 +29,7 @@ export default function RecipeEdit() {
                     name='cookTime' 
                     id='cookTime' 
                     className='recipe-edit__input'
+                    value={selectedRecipe.cookTime}
                     />
                 <label 
                     htmlFor='servings'
@@ -40,6 +42,7 @@ export default function RecipeEdit() {
                     name='servings' 
                     id='servings' 
                     className='recipe-edit__input'
+                    value={selectedRecipe.servings }
                     />
                 <label 
                     htmlFor='instructions'
@@ -51,6 +54,7 @@ export default function RecipeEdit() {
                     name='instructions' 
                     id='instructions' 
                     className='recipe-edit__input'
+                    value={selectedRecipe.instructions}
                 />
             </div>
             <br />
@@ -58,9 +62,8 @@ export default function RecipeEdit() {
             <div className='recipe-edit__ingridient-grid'>
                 <div>Name</div>
                 <div>Amount</div>
-                <div></div>
-                <RecipeIngridientEdit />
-                <RecipeIngridientEdit />
+                <div></div>     
+                {selectedRecipe.ingridients.map(ingridient => <RecipeIngridientEdit key={ingridient.id} ingridient={ingridient && ingridient}/>)}
             </div>
             <div className='recipe-edit__add-ingridient-btn-container'>
                 <button className='btn btn--primary'>Add ingridient</button>
