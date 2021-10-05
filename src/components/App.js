@@ -29,27 +29,26 @@ const selectedRecipe = recipes.find(recipe => recipe.id === selectedRecipeId)
 function handleRecipeAdd() {
   const newRecipe = {
     id: uuidv4(),
-    name: 'New',
-       servings: 3,
-       cookTime: '1:45',
-       instructions: '1. Put salt on chicken\n2. Put chicken in oven\n3. Eat chicken',
+    name: '',
+       servings: 1,
+       cookTime: '',
+       instructions: '',
        ingridients: [
          {
            id: uuidv4(),
-           name: 'Chicken',
-           amount: '2 pounds'
-         },
-         {
-           id: uuidv4(),
-           name: 'Salt',
-           amount: '1Tbs'
+           name: '',
+           amount: '1'
          }
        ]
   }
+  setSelectedRecipeId(newRecipe.id)
   setRecipes([...recipes, newRecipe])
 }
 
 function handleRecipeDelete(id) {
+  if(selectedRecipeId != null && selectedRecipeId == id) {
+    setSelectedRecipeId(undefined);
+  }
   setRecipes(recipes.filter(recipe => recipe.id !== id));
 }
 
@@ -59,7 +58,7 @@ function handleRecipeSelected(id) {
 
 function handleRecipeChange(id, recipe) {
   const newRecipe = [...recipes];
-  const index = newRecipe .findIndex(r => r.id === id);
+  const index = newRecipe.findIndex(r => r.id === id);
   newRecipe[index] = recipe;
   setRecipes(newRecipe);
 }

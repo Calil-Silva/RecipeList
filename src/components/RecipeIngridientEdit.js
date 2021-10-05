@@ -1,4 +1,4 @@
-export default function RecipeIngridientEdit({ingridient, handleIngridientChange}) {
+export default function RecipeIngridientEdit({ingridient, handleIngridientChange, handleIngridientDelete}) {
 
     function handleChange(changes) {
         handleIngridientChange(ingridient.id, {...ingridient, ...changes})
@@ -10,15 +10,20 @@ export default function RecipeIngridientEdit({ingridient, handleIngridientChange
             className='recipe-edit__input' 
             type='text'
             value={ingridient && ingridient.name}
-            onInput={e => handleChange({name: e.target.value})}
+            onChange={e => handleChange({name: e.target.value})}
          /> 
          <input 
             className='recipe-edit__input' 
             type='text'
             value={ingridient && ingridient.amount}
-            onInput={e => handleChange({amount: e.target.value})}
+            onChange={e => handleChange({amount: e.target.value})}
          /> 
-         <button className='btn btn--danger'>&times;</button>
+         <button 
+            className='btn btn--danger'
+            onClick={() => handleIngridientDelete(ingridient.id)}
+        >
+            &times;
+        </button>
         </>
     )
 }

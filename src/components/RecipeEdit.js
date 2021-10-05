@@ -1,9 +1,10 @@
 import RecipeIngridientEdit from "./RecipeIngridientEdit";
 import { useContext } from "react";
 import { RecipeContext } from "./App";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function RecipeEdit({selectedRecipe}) {
-    const { handleRecipeChange } = useContext(RecipeContext)
+    const { handleRecipeChange, handleRecipeSelected } = useContext(RecipeContext)
     
     function handleChange(changes) {
         handleRecipeChange(selectedRecipe.id,  {...selectedRecipe, ...changes })
@@ -16,10 +17,27 @@ export default function RecipeEdit({selectedRecipe}) {
         handleChange({ingridients: newIngridients})
     }
 
+    function handleIngridientAdd() {
+        const newIngridient = {
+            id: uuidv4(),
+            name: '',
+            amount: ''
+        }
+        handleChange({ ingridients: [...selectedRecipe.ingridients, newIngridient]})
+    }
+
+    function handleIngridientDelete(id) {
+        handleChange({ingridients: selectedRecipe.ingridients.filter(i => i.id !== id)})
+    }
+
     return (
         <div className='recipe-edit'>
             <div className='recipe-edit__remove-button-container'>
-                <button className='btn recipe-edit__remove-button'>&times;</button>
+                <button 
+                    className='btn recipe-edit__remove-button'
+                    onClick={() => handleRecipeSelected(undefined)}
+                >    
+                &times;</button>
             </div>
             <div className='recipe-edit__details-grid'>
                 <label 
@@ -33,7 +51,7 @@ export default function RecipeEdit({selectedRecipe}) {
                     id='name' 
                     className='recipe-edit__input'
                     value={selectedRecipe.name}
-                    onInput={e => handleChange({name : e.target.value})}
+                    onChange={e => handleChange({name : e.target.value})}
                     />
                 <label 
                     htmlFor='cookTime'
@@ -46,7 +64,7 @@ export default function RecipeEdit({selectedRecipe}) {
                     id='cookTime' 
                     className='recipe-edit__input'
                     value={selectedRecipe.cookTime}
-                    onInput={e => handleChange({cookTime : e.target.value})}
+                    onChange={e => handleChange({cookTime : e.target.value})}
                     />
                 <label 
                     htmlFor='servings'
@@ -60,7 +78,7 @@ export default function RecipeEdit({selectedRecipe}) {
                     id='servings' 
                     className='recipe-edit__input'
                     value={selectedRecipe.servings }
-                    onInput={e => handleChange({servings : parseInt(e.target.value) || ''})}
+                    onChange={e => handleChange({servings : parseInt(e.target.value) || ''})}
                     />
                 <label 
                     htmlFor='instructions'
@@ -73,7 +91,7 @@ export default function RecipeEdit({selectedRecipe}) {
                     id='instructions' 
                     className='recipe-edit__input'
                     value={selectedRecipe.instructions}
-                    onInput={e => handleChange({instructions : e.target.value})}
+                    onChange={e => handleChange({instructions : e.target.value})}
                 />
             </div>
             <br />
@@ -82,10 +100,15 @@ export default function RecipeEdit({selectedRecipe}) {
                 <div>Name</div>
                 <div>Amount</div>
                 <div></div>     
-                {selectedRecipe.ingridients.map(ingridient => <RecipeIngridientEdit key={ingridient.id} ingridient={ingridient && ingridient} handleIngridientChange={handleIngridientChange}/>)}
+                {selectedRecipe.ingridients.map(ingridient => <RecipeIngridientEdit key={ingridient.id} ingridient={ingridient && ingridient} handleIngridientChange={handleIngridientChange} handleIngridientDelete={handleIngridientDelete}/>)}
             </div>
             <div className='recipe-edit__add-ingridient-btn-container'>
-                <button className='btn btn--primary'>Add ingridient</button>
+                <button 
+                    className='btn btn--primary'
+                    onClick={() => handleIngridientAdd()}
+                >
+                    Add ingridient
+                </button>
             </div>
         </div>
     )
