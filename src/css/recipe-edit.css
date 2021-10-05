@@ -25,6 +25,7 @@
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 10px 40px;
+    align-items: center;
 }
 
 .recipe-edit__label {
